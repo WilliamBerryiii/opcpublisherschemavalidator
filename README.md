@@ -4,7 +4,7 @@ The OPC Publisher Schema Validator is a command line tool used to both generate 
 for the OPC Publsher's configuration files (`publishednodes.json` and `telemetryconfiguration.json`)
 and to validate the structure of these configuration files within the context of a CI/CD pipeline.
 
-[![Build Status](https://dev.azure.com/CSE-IoTTechnicalDomain/opcpublisherschemavalidator/_apis/build/status/WilliamBerryiii.opcpublisherschemavalidator?branchName=master)](https://dev.azure.com/CSE-IoTTechnicalDomain/opcpublisherschemavalidator/_build/latest?definitionId=28&branchName=master)
+[![Build Status](https://dev.azure.com/CSE-IoTTechnicalDomain/opcpublisherschemavalidator/_apis/build/status/WilliamBerryiii.opcpublisherschemavalidator?branchName=main)](https://dev.azure.com/CSE-IoTTechnicalDomain/opcpublisherschemavalidator/_build/latest?definitionId=28&branchName=main)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Getting Started
