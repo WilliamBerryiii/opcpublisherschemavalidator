@@ -1,0 +1,103 @@
+{
+  "$schema": "jsonSchemaUrl",
+  "type": "array",
+  "items": [
+    {
+      "type": "array",
+      "properties": {},
+      "items": {
+        "anyOf": [
+          {
+            "EndpointUrl": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "endpointRegexStr"
+            },
+            "UseSecurity": {
+              "type": "boolean",
+              "default": true
+            },
+            "OpcNodes": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "Id": {
+                      "type": "string",
+                      "pattern": ""
+                    },
+                    "OpcSamplingInterval": {
+                      "type": "integer"
+                    },
+                    "OpcPublishingInterval": {
+                      "type": "integer"
+                    },
+                    "Heartbeat": {
+                      "type": "integer"
+                    },
+                    "SkipFirst": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": ["Id"]
+                }
+              ]
+            }
+          },
+          {
+            "EndpointUrl": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "endpointRegexStr"
+            },
+            "UseSecurity": {
+              "type": "boolean",
+              "default": true
+            },
+            "OpcNodes": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "ExpandedNodeId": {
+                      "type": "string",
+                      "pattern": "generatePublishedNodesNodeIdRegex(formats)"
+                    },
+                    "OpcSamplingInterval": {
+                      "type": "integer"
+                    },
+                    "OpcPublishingInterval": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": ["ExpandedNodeId"]
+                }
+              ]
+            }
+          },
+          {
+            "EndpointUrl": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "endpointRegexStr"
+            },
+            "NodeId": {
+              "type": "object",
+              "properties": {
+                "Identifier": {
+                  "type": "string",
+                  "pattern": "generatePublishedNodesNodeIdRegex(formats)"
+                }
+              },
+              "required": ["Identifier"]
+            }
+          }
+        ]
+      },
+
+      "required": ["EndpointUrl", "OpcNodes"]
+    }
+  ]
+}

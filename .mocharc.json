@@ -1,0 +1,10 @@
+{
+  "recursive": true,
+  // "reporter": "mocha-junit-reporter",
+  // "reporter-options": {
+  //   "mochaFile": "./test-output/test-results.xml"
+  // },
+  "require": ["ts-node/register", "source-map-support/register"],
+  "extension": ["ts"],
+  "spec": "test/**/*.ts"
+}

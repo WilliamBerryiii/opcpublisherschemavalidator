@@ -1,0 +1,58 @@
+[
+  {
+    "EndpointUrl": "opc.tcp://20.185.195.172:53530/OPCUA/SimulationServer",
+    "UseSecurity": false,
+    "OpcNodes": [
+      {
+        "Id": "i=1001",
+        "OpcSamplingInterval": 2000,
+        "OpcPublishingInterval": 5000
+      },
+      {
+        "Id": "i=1002",
+        "OpcSamplingInterval": 2000,
+        "OpcPublishingInterval": 5000
+      },
+      {
+        "Id": "s=this is a string nodeid",
+        "OpcSamplingInterval": 2000,
+        "OpcPublishingInterval": 5000
+      },
+      {
+        "Id": "s=this is another string nodeid",
+        "OpcSamplingInterval": 2000,
+        "OpcPublishingInterval": 5000
+      },
+      {
+        "Id": "g=ac85ad0a-1f3f-4ee5-af3d-a7f4f33902d6",
+        "OpcSamplingInterval": 2000,
+        "OpcPublishingInterval": 5000
+      },
+      {
+        "Id": "g=ac85ad0a-1f3f-4ee5-af3d-a7f4f33902d7",
+        "OpcSamplingInterval": 2000,
+        "OpcPublishingInterval": 5000
+      },
+      {
+        "Id": "b=dGhpcyBpcyBhIG5vZGUgaWQ=",
+        "OpcSamplingInterval": 2000,
+        "OpcPublishingInterval": 5000
+      },
+      {
+        "Id": "b=dGhpcyBpcyBhbm90aGVyIG5vZGUgaWQ=",
+        "OpcSamplingInterval": 2000,
+        "OpcPublishingInterval": 5000
+      },
+      {
+        "Id": "nsu=http://opcfoundation.org/UA/;i=12345",
+        "OpcSamplingInterval": 2000,
+        "OpcPublishingInterval": 5000
+      },
+      {
+        "Id": "nsu=http://opcfoundation.org/UA/;i=123456",
+        "OpcSamplingInterval": 2000,
+        "OpcPublishingInterval": 5000
+      }
+    ]
+  }
+]

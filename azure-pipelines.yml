@@ -1,0 +1,64 @@
+trigger:
+  - main
+  - feature/*
+
+pr:
+  - main
+  - feature/*
+
+strategy:
+  matrix:
+    linux:
+      imageName: 'ubuntu-latest'
+    windows:
+      imageName: 'windows-latest'
+  maxParallel: 2
+
+pool:
+  vmImage: $(imageName)
+
+steps:
+  - task: CredScan@2
+    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+    inputs:
+      toolMajorVersion: 'V2'
+      verboseOutput: true
+    displayName: 'Run CredScan'
+
+  - task: NodeTool@0
+    condition: eq( variables['Agent.OS'], 'Linux' )
+    inputs:
+      versionSpec: '15.3.x'
+
+  - script: |
+      npm install
+    condition: eq( variables['Agent.OS'], 'Linux' )
+    displayName: 'Run NPM Install'
+
+  - script: |
+      npm run lint
+    condition: eq( variables['Agent.OS'], 'Linux' )
+    displayName: 'Run JS Linting'
+
+  - script: |
+      npm run lint_md
+    condition: eq( variables['Agent.OS'], 'Linux' )
+    displayName: 'Run Markdown Linting'
+
+  - script: |
+      npm run coverage
+    condition: eq( variables['Agent.OS'], 'Linux' )
+    displayName: 'Run JS Tests and generate code coverage'
+
+  - task: PublishTestResults@2
+    condition: and(succeededOrFailed(), eq( variables['Agent.OS'], 'Linux' ))
+    inputs:
+      testRunner: JUnit
+      testResultsFiles: '**/test-results.xml'
+
+  - task: PublishCodeCoverageResults@1
+    condition: eq( variables['Agent.OS'], 'Linux' )
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
+      reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'

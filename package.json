@@ -1,0 +1,82 @@
+{
+  "name": "opcpublisher-schema-validator",
+  "version": "0.0.1",
+  "description": "Schema validation utility for Azure IIoT OPC Publisher configuration files.",
+  "main": "build/src/index.js",
+  "types": "build/src/index.d.ts",
+  "files": [
+    "build/src"
+  ],
+  "scripts": {
+    "check": "gts check",
+    "test": "mocha",
+    "lint": "gts lint",
+    "clean": "gts clean",
+    "compile": "tsc",
+    "fix": "gts fix",
+    "prepare": "npm run compile",
+    "pretest": "npm run compile",
+    "prelocal-test": "npm run compile",
+    "lint_md": "markdownlint -c .markdownlint.json ./*.md",
+    "coverage": "nyc npm run test"
+  },
+  "directories": {
+    "src": "src",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://CSE-IoTTechnicalDomain@dev.azure.com/CSE-IoTTechnicalDomain/opcpublisherschemavalidator/_git/opcpublisherschemavalidator"
+  },
+  "keywords": [
+    "OPC",
+    "OPCUA",
+    "OPCPublisher",
+    "Azure",
+    "IIoT"
+  ],
+  "author": "William Berry <wberry@microsoft.com>",
+  "contributors": [
+    "Suneet Nangia"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "ajv": "^8.6.2",
+    "ajv-formats": "^2.1.0",
+    "config": "^3.3.6",
+    "esm": "^3.2.25",
+    "liquidjs": "^9.25.1",
+    "markdownlint-cli": "^0.28.1",
+    "node-fetch": "^2.6.1",
+    "require-dir": "^1.2.0",
+    "winston": "^3.3.3",
+    "yargs": "^17.0.1"
+  },
+  "devDependencies": {
+    "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@types/chai": "^4.2.19",
+    "@types/config": "^0.0.39",
+    "@types/mocha": "^9.0.0",
+    "@types/node": "^16.4.3",
+    "@types/node-fetch": "^2.5.10",
+    "@types/require-dir": "^1.0.1",
+    "@types/sinon": "^10.0.2",
+    "@types/yargs": "^17.0.0",
+    "chai": "^4.3.4",
+    "eslint": "^7.29.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "gts": "^3.1.0",
+    "mocha": "^9.0.1",
+    "mocha-junit-reporter": "^2.0.0",
+    "nyc": "^15.1.0",
+    "prettier": "^2.3.1",
+    "sinon": "^11.1.1",
+    "source-map-support": "^0.5.19",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.5"
+  }
+}
