@@ -64,7 +64,7 @@ To build the project run `npm run compile`
 
 To test the project run `npm run test`
 
-To generate a reference schema run `node ./build/src/index.js generate-schema` and
+To generate a reference schema run `node ./build/src/index.js generate-publishednodes-schema` and
 check the output folder for a generated schema file.
 
 Useful Development Scripts:
