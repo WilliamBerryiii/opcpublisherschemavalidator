@@ -1,8 +1,8 @@
 # Introduction
 
 The OPC Publisher Schema Validator is a command line tool used to both generate json-schema files
-for the OPC Publsher's configuration files (`publishednodes.json` and `telemetryconfiguration.json`)
-and to validate the structure of these configuration files within the context of a CI/CD pipeline.
+for the OPC Publsher's configuration file (`publishednodes.json`)
+and to validate the structure of the configuration files within the context of a CI/CD pipeline.
 
 [![Build Status](https://dev.azure.com/CSE-IoTTechnicalDomain/opcpublisherschemavalidator/_apis/build/status/WilliamBerryiii.opcpublisherschemavalidator?branchName=main)](https://dev.azure.com/CSE-IoTTechnicalDomain/opcpublisherschemavalidator/_build/latest?definitionId=28&branchName=main)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -36,13 +36,14 @@ allowable NodeId formats for validation, use the following command (note the use
 
 ### Validating a configuation file with the generated schema
 
-You can validate a `publishednodes.json` file with the command:
+You can validate a `publishednodes.json` file with the command (note the optional use of the `--type` flag, though the
+only supported configuration file is currently `publishednodes.json`):
 
 `node .\build\src\index.js validate --type publishednodes --schema {publishednodes-schema.json} --target {publishednodes.json}`
 
 or by using the validate command's alias `v`:
 
-`node .\build\src\index.js v -t publishednodes -cf .\sample_files\real-publishednode.json`
+`node .\build\src\index.js v -cf .\sample_files\real-publishednode.json`
 
 ### Validation details
 
