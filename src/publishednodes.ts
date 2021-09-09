@@ -186,169 +186,202 @@ export function getPublishedNodesSchema(
       type: 'object',
       oneOf: [
         {
-          type: 'object',
-          properties: {
-            DataSetWriterId: {
-              type: 'string',
-            },
-            DataSetWriterGroup: {
-              type: 'string',
-            },
-            DataSetPublishingInterval: {
-              type: ['integer', 'string'],
-            },
-            EncryptedAuthPassword: {
-              type: 'string',
-            },
-            OpcAuthenticationPassword: {
-              type: 'string',
-            },
-            EndpointUrl: {
-              type: 'string',
-              format: 'uri',
-              pattern: `${endpointRegexStr}`,
-            },
-            UseSecurity: {
-              type: 'boolean',
-            },
-            OpcNodes: {
-              type: 'array',
-              items: [
-                {
-                  type: 'object',
-                  properties: {
-                    Id: {
-                      type: 'string',
-                      pattern: `${generatePublishedNodesNodeIdRegex(formats)}`,
-                    },
-                    DisplayName: {
-                      type: 'string',
-                    },
-                    DataSetFieldId: {
-                      type: 'string',
-                    },
-                    OpcSamplingInterval: {
-                      type: 'integer',
-                    },
-                    OpcPublishingInterval: {
-                      type: 'integer',
-                    },
-                    HeartbeatInterval: {
-                      type: 'integer',
-                    },
-                    HeartbeatIntervalTimespan: {
-                      type: 'string',
-                    },
-                    SkipFirst: {
-                      type: 'boolean',
-                    },
-                  },
-                  required: ['Id'],
+          if: {
+            properties: {
+              OpcNodes: {
+                properties: {
+                  Id: true
                 },
-              ],
+              }
             },
           },
-          required: ['EndpointUrl', 'OpcNodes'],
-        },
-        {
-          type: 'object',
-          properties: {
-            DataSetWriterId: {
-              type: 'string',
-            },
-            DataSetWriterGroup: {
-              type: 'string',
-            },
-            DataSetPublishingInterval: {
-              type: 'string',
-            },
-            EncryptedAuthPassword: {
-              type: 'string',
-            },
-            OpcAuthenticationPassword: {
-              type: 'string',
-            },
-            EndpointUrl: {
-              type: 'string',
-              format: 'uri',
-              pattern: `${endpointRegexStr}`,
-            },
-            UseSecurity: {
-              type: 'boolean',
-            },
-            OpcNodes: {
-              type: 'array',
-              items: [
-                {
-                  type: 'object',
-                  properties: {
-                    ExpandedNodeId: {
-                      type: 'string',
-                      // this should only use the expanded nodeid format
-                      pattern: `${generatePublishedNodesNodeIdRegex([
-                        NodeIdFormat.ExpandedNodeId.toString(),
-                      ])}`,
-                    },
-                    OpcSamplingInterval: {
-                      type: 'integer',
-                    },
-                    OpcPublishingInterval: {
-                      type: 'integer',
-                    },
-                  },
-                  required: ['ExpandedNodeId'],
-                },
-              ],
-            },
-          },
-          required: ['EndpointUrl', 'OpcNodes'],
-        },
-        {
-          type: 'object',
-          properties: {
-            DataSetWriterId: {
-              type: 'string',
-            },
-            DataSetWriterGroup: {
-              type: 'string',
-            },
-            DataSetPublishingInterval: {
-              type: 'string',
-            },
-            EncryptedAuthPassword: {
-              type: 'string',
-            },
-            OpcAuthenticationPassword: {
-              type: 'string',
-            },
-            EndpointUrl: {
-              type: 'string',
-              format: 'uri',
-              pattern: `${endpointRegexStr}`,
-            },
-            NodeId: {
-              type: 'object',
-              properties: {
-                Identifier: {
-                  type: 'string',
-                  // the only supported historical format for this schema
-                  // is the NodeId format; e.g. "NodeId" : "i=12345"
-                  pattern: `${generatePublishedNodesNodeIdRegex([
-                    NodeIdFormat.NodeId.toString(),
-                    NodeIdFormat.NamespaceIndex.toString(),
-                  ])}`,
-                },
-                OpcSamplingInterval: {
-                  type: 'integer',
-                },
-                OpcPublishingInterval: {
-                  type: 'integer',
-                },
+          then: {
+            type: 'object',
+            properties: {
+              DataSetWriterId: {
+                type: 'string',
               },
-              required: ['Identifier'],
+              DataSetWriterGroup: {
+                type: 'string',
+              },
+              DataSetPublishingInterval: {
+                type: ['integer', 'string'],
+              },
+              EncryptedAuthPassword: {
+                type: 'string',
+              },
+              OpcAuthenticationPassword: {
+                type: 'string',
+              },
+              EndpointUrl: {
+                type: 'string',
+                format: 'uri',
+                pattern: `${endpointRegexStr}`,
+              },
+              UseSecurity: {
+                type: 'boolean',
+              },
+              OpcNodes: {
+                type: 'array',
+                items: [
+                  {
+                    type: 'object',
+                    properties: {
+                      Id: {
+                        type: 'string',
+                        pattern: `${generatePublishedNodesNodeIdRegex(formats)}`,
+                      },
+                      DisplayName: {
+                        type: 'string',
+                      },
+                      DataSetFieldId: {
+                        type: 'string',
+                      },
+                      OpcSamplingInterval: {
+                        type: 'integer',
+                      },
+                      OpcPublishingInterval: {
+                        type: 'integer',
+                      },
+                      HeartbeatInterval: {
+                        type: 'integer',
+                      },
+                      HeartbeatIntervalTimespan: {
+                        type: 'string',
+                      },
+                      SkipFirst: {
+                        type: 'boolean',
+                      },
+                    },
+                    required: ['Id'],
+                  },
+                ],
+              },
             },
+            required: ['EndpointUrl', 'OpcNodes'],
           },
-          required: ['EndpointUrl', 'NodeId'],
+        },
+        {
+          if: {
+            properties: {
+              OpcNodes: {
+                properties: {
+                  ExpandedNodeId: true
+                }
+              }
+            }
+          },
+          then: {
+            type: 'object',
+            properties: {
+              DataSetWriterId: {
+                type: 'string',
+              },
+              DataSetWriterGroup: {
+                type: 'string',
+              },
+              DataSetPublishingInterval: {
+                type: 'string',
+              },
+              EncryptedAuthPassword: {
+                type: 'string',
+              },
+              OpcAuthenticationPassword: {
+                type: 'string',
+              },
+              EndpointUrl: {
+                type: 'string',
+                format: 'uri',
+                pattern: `${endpointRegexStr}`,
+              },
+              UseSecurity: {
+                type: 'boolean',
+              },
+              OpcNodes: {
+                type: 'array',
+                items: [
+                  {
+                    type: 'object',
+                    properties: {
+                      ExpandedNodeId: {
+                        type: 'string',
+                        // this should only use the expanded nodeid format
+                        pattern: `${generatePublishedNodesNodeIdRegex([
+                          NodeIdFormat.ExpandedNodeId.toString(),
+                        ])}`,
+                      },
+                      OpcSamplingInterval: {
+                        type: 'integer',
+                      },
+                      OpcPublishingInterval: {
+                        type: 'integer',
+                      },
+                    },
+                    required: ['ExpandedNodeId'],
+                  },
+                ],
+              },
+            },
+            required: ['EndpointUrl', 'OpcNodes'],
+          },
+        },
+        {
+          if: {
+            properties: {
+              NodeId: {
+                properties: {
+                  Identifier: true
+                }
+              },
+            }
+          },
+          then: {
+            type: 'object',
+            properties: {
+              DataSetWriterId: {
+                type: 'string',
+              },
+              DataSetWriterGroup: {
+                type: 'string',
+              },
+              DataSetPublishingInterval: {
+                type: 'string',
+              },
+              EncryptedAuthPassword: {
+                type: 'string',
+              },
+              OpcAuthenticationPassword: {
+                type: 'string',
+              },
+              EndpointUrl: {
+                type: 'string',
+                format: 'uri',
+                pattern: `${endpointRegexStr}`,
+              },
+              NodeId: {
+                type: 'object',
+                properties: {
+                  Identifier: {
+                    type: 'string',
+                    // the only supported historical format for this schema
+                    // is the NodeId format; e.g. "NodeId" : "i=12345"
+                    pattern: `${generatePublishedNodesNodeIdRegex([
+                      NodeIdFormat.NodeId.toString(),
+                      NodeIdFormat.NamespaceIndex.toString(),
+                    ])}`,
+                  },
+                  OpcSamplingInterval: {
+                    type: 'integer',
+                  },
+                  OpcPublishingInterval: {
+                    type: 'integer',
+                  },
+                },
+                required: ['Identifier'],
+              },
+            },
+            required: ['EndpointUrl', 'NodeId'],
+          },
         },
       ],
     },
@@ -364,15 +397,15 @@ export function getPublishedNodesSchema(
     const s = schema;
     const updatedOneOfSchema = s.items.oneOf.map(element => {
       // grab the schema elements that allow UseSecurity
-      if (element.properties.UseSecurity) {
+      if (element.then.properties.UseSecurity) {
         // ensure that UseSecurity is a required field
-        element.required.push('UseSecurity');
+        element.then.required.push('UseSecurity');
         // set a const to ensure the value is set to true
         // when useSecurity is true
         if (useSecurity) {
-          const useSecurity = element.properties.UseSecurity;
+          const useSecurity = element.then.properties.UseSecurity;
           const useSecurityConst = {...useSecurity, const: true};
-          element.properties.UseSecurity = useSecurityConst;
+          element.then.properties.UseSecurity = useSecurityConst;
         }
       }
       return element;

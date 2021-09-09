@@ -141,7 +141,7 @@ describe('An example publishednodes.json file', () => {
     //console.log(validationErrors);
 
     expect(result).to.be.false;
-    expect(validationErrors).to.have.length(5);
+    expect(validationErrors).to.have.length(2);
     // check that require security is why it failed
     // by checking against the value of UseSecurity
     expect(
@@ -161,8 +161,9 @@ describe('When running against the generated publishednodes-schema.json an incor
     // modify the NodeId in the first element of the
     // publishedNodes.json file to trigger a parse
     // failure.
-    publishedNodes[0]['OpcNodes'][0]['Id'] = 'i=12345f';
-    const [result, validationErrors] = validateFile(publishedNodes, schema);
+    let pn = JSON.parse(JSON.stringify(publishedNodes));
+    pn[0]['OpcNodes'][0]['Id'] = 'i=12345f';
+    const [result, validationErrors] = validateFile(pn, schema);
     //console.log(validationErrors);
 
     expect(result).to.be.false;
@@ -176,7 +177,37 @@ describe('When running against the generated publishednodes-schema.json an incor
       (validationErrors as DefinedError[]).find(
         err =>
           err.schemaPath ===
-          '#/items/oneOf/0/properties/OpcNodes/items/0/properties/Id/pattern'
+          '#/items/oneOf/0/then/properties/OpcNodes/items/0/properties/Id/pattern'
+      )
+    ).to.exist;
+    expect(
+      (validationErrors as DefinedError[]).find(
+        err => err.instancePath === '/0'
+      )
+    ).to.exist;
+  });
+
+  it('should return one error when being validated with an integer NodeId, as the second array element, that includes a string', () => {
+    // modify the NodeId in the first element of the
+    // publishedNodes.json file to trigger a parse
+    // failure.
+    let pn = JSON.parse(JSON.stringify(publishedNodes));
+    pn[0]['OpcNodes'][2]['Id'] = 'i=12345f';
+    const [result, validationErrors] = validateFile(pn, schema);
+    //console.log(validationErrors);
+
+    expect(result).to.be.false;
+    expect(validationErrors).to.not.be.empty;
+    expect(
+      (validationErrors as DefinedError[]).find(
+        err => err.instancePath === '/0/OpcNodes/2/Id'
+      )
+    ).to.exist;
+    expect(
+      (validationErrors as DefinedError[]).find(
+        err =>
+          err.schemaPath ===
+          '#/items/oneOf/0/then/properties/OpcNodes/items/2/properties/Id/pattern'
       )
     ).to.exist;
     expect(
@@ -190,8 +221,9 @@ describe('When running against the generated publishednodes-schema.json an incor
     // modify the NodeId in the first element of the
     // publishedNodes.json file to trigger a parse
     // failure.
-    publishedNodes[0]['OpcNodes'][0]['Id'] = 'g=12345f';
-    const [result, validationErrors] = validateFile(publishedNodes, schema);
+    let pn = JSON.parse(JSON.stringify(publishedNodes));
+    pn[0]['OpcNodes'][0]['Id'] = 'g=12345f';
+    const [result, validationErrors] = validateFile(pn, schema);
     //console.log(validationErrors);
 
     expect(result).to.be.false;
@@ -205,7 +237,7 @@ describe('When running against the generated publishednodes-schema.json an incor
       (validationErrors as DefinedError[]).find(
         err =>
           err.schemaPath ===
-          '#/items/oneOf/0/properties/OpcNodes/items/0/properties/Id/pattern'
+          '#/items/oneOf/0/then/properties/OpcNodes/items/0/properties/Id/pattern'
       )
     ).to.exist;
     expect(
@@ -219,8 +251,9 @@ describe('When running against the generated publishednodes-schema.json an incor
     // modify the NodeId in the first element of the
     // publishedNodes.json file to trigger a parse
     // failure.
-    publishedNodes[0]['OpcNodes'][0]['Id'] = 'b=12345';
-    const [result, validationErrors] = validateFile(publishedNodes, schema);
+    let pn = JSON.parse(JSON.stringify(publishedNodes));
+    pn[0]['OpcNodes'][0]['Id'] = 'b=12345';
+    const [result, validationErrors] = validateFile(pn, schema);
     //console.log(validationErrors);
 
     expect(result).to.be.false;
@@ -234,7 +267,7 @@ describe('When running against the generated publishednodes-schema.json an incor
       (validationErrors as DefinedError[]).find(
         err =>
           err.schemaPath ===
-          '#/items/oneOf/0/properties/OpcNodes/items/0/properties/Id/pattern'
+          '#/items/oneOf/0/then/properties/OpcNodes/items/0/properties/Id/pattern'
       )
     ).to.exist;
     expect(
