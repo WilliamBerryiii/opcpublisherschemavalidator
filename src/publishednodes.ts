@@ -181,193 +181,121 @@ export function getPublishedNodesSchema(
   const schema = {
     //$id: jsonSchemaUrl,
     $schema: jsonSchemaUrl,
+    $comment: "The outer most object of the configuration file must be an array, though " +
+      "it's contents may adhear to several differing schema, presented from newest to oldest supported schema.",
     type: 'array',
     items: {
-      type: 'object',
+      $comment: "The nested 'oneOf' under 'items' ensures that each array element must comform " +
+        "to one of the three following subschema. See the following stackoverflow post for details: " +
+        "https://stackoverflow.com/a/67314134/1276028",
       oneOf: [
         {
-          if: {
-            properties: {
-              OpcNodes: {
-                properties: {
-                  Id: true
-                },
-              }
+          $comment: "The following subschema is the most current allowable configuration schema for OPC Publisher",
+          type: 'object',
+          properties: {
+            DataSetWriterId: {
+              type: 'string',
             },
-          },
-          then: {
-            type: 'object',
-            properties: {
-              DataSetWriterId: {
-                type: 'string',
-              },
-              DataSetWriterGroup: {
-                type: 'string',
-              },
-              DataSetPublishingInterval: {
-                type: ['integer', 'string'],
-              },
-              EncryptedAuthPassword: {
-                type: 'string',
-              },
-              OpcAuthenticationPassword: {
-                type: 'string',
-              },
-              EndpointUrl: {
-                type: 'string',
-                format: 'uri',
-                pattern: `${endpointRegexStr}`,
-              },
-              UseSecurity: {
-                type: 'boolean',
-              },
-              OpcNodes: {
-                type: 'array',
-                items: [
-                  {
-                    type: 'object',
-                    properties: {
-                      Id: {
-                        type: 'string',
-                        pattern: `${generatePublishedNodesNodeIdRegex(formats)}`,
-                      },
-                      DisplayName: {
-                        type: 'string',
-                      },
-                      DataSetFieldId: {
-                        type: 'string',
-                      },
-                      OpcSamplingInterval: {
-                        type: 'integer',
-                      },
-                      OpcPublishingInterval: {
-                        type: 'integer',
-                      },
-                      HeartbeatInterval: {
-                        type: 'integer',
-                      },
-                      HeartbeatIntervalTimespan: {
-                        type: 'string',
-                      },
-                      SkipFirst: {
-                        type: 'boolean',
-                      },
-                    },
-                    required: ['Id'],
-                  },
-                ],
-              },
+            DataSetWriterGroup: {
+              type: 'string',
             },
-            required: ['EndpointUrl', 'OpcNodes'],
-          },
-        },
-        {
-          if: {
-            properties: {
-              OpcNodes: {
-                properties: {
-                  ExpandedNodeId: true
-                }
-              }
-            }
-          },
-          then: {
-            type: 'object',
-            properties: {
-              DataSetWriterId: {
-                type: 'string',
-              },
-              DataSetWriterGroup: {
-                type: 'string',
-              },
-              DataSetPublishingInterval: {
-                type: 'string',
-              },
-              EncryptedAuthPassword: {
-                type: 'string',
-              },
-              OpcAuthenticationPassword: {
-                type: 'string',
-              },
-              EndpointUrl: {
-                type: 'string',
-                format: 'uri',
-                pattern: `${endpointRegexStr}`,
-              },
-              UseSecurity: {
-                type: 'boolean',
-              },
-              OpcNodes: {
-                type: 'array',
-                items: [
-                  {
-                    type: 'object',
-                    properties: {
-                      ExpandedNodeId: {
-                        type: 'string',
-                        // this should only use the expanded nodeid format
-                        pattern: `${generatePublishedNodesNodeIdRegex([
-                          NodeIdFormat.ExpandedNodeId.toString(),
-                        ])}`,
-                      },
-                      OpcSamplingInterval: {
-                        type: 'integer',
-                      },
-                      OpcPublishingInterval: {
-                        type: 'integer',
-                      },
-                    },
-                    required: ['ExpandedNodeId'],
-                  },
-                ],
-              },
+            DataSetPublishingInterval: {
+              type: ['integer', 'string'],
             },
-            required: ['EndpointUrl', 'OpcNodes'],
-          },
-        },
-        {
-          if: {
-            properties: {
-              NodeId: {
-                properties: {
-                  Identifier: true
-                }
-              },
-            }
-          },
-          then: {
-            type: 'object',
-            properties: {
-              DataSetWriterId: {
-                type: 'string',
-              },
-              DataSetWriterGroup: {
-                type: 'string',
-              },
-              DataSetPublishingInterval: {
-                type: 'string',
-              },
-              EncryptedAuthPassword: {
-                type: 'string',
-              },
-              OpcAuthenticationPassword: {
-                type: 'string',
-              },
-              EndpointUrl: {
-                type: 'string',
-                format: 'uri',
-                pattern: `${endpointRegexStr}`,
-              },
-              NodeId: {
+            EncryptedAuthPassword: {
+              type: 'string',
+            },
+            OpcAuthenticationPassword: {
+              type: 'string',
+            },
+            EndpointUrl: {
+              type: 'string',
+              format: 'uri',
+              $comment: "Endpoint urls must adhear to OPC UA server addressing schemes which begin with `opc.tcp` followed by " +
+                "acceptable URI formatting, e.g. `opc.tcp?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+`",
+              pattern: `${endpointRegexStr}`,
+            },
+            UseSecurity: {
+              type: 'boolean',
+            },
+            OpcNodes: {
+              type: 'array',
+              items:
+              {
                 type: 'object',
                 properties: {
-                  Identifier: {
+                  Id: {
                     type: 'string',
-                    // the only supported historical format for this schema
-                    // is the NodeId format; e.g. "NodeId" : "i=12345"
+                    pattern: `${generatePublishedNodesNodeIdRegex(formats)}`,
+                  },
+                  DisplayName: {
+                    type: 'string',
+                  },
+                  DataSetFieldId: {
+                    type: 'string',
+                  },
+                  OpcSamplingInterval: {
+                    type: 'integer',
+                  },
+                  OpcPublishingInterval: {
+                    type: 'integer',
+                  },
+                  HeartbeatInterval: {
+                    type: 'integer',
+                  },
+                  HeartbeatIntervalTimespan: {
+                    type: 'string',
+                  },
+                  SkipFirst: {
+                    type: 'boolean',
+                  },
+                },
+                required: ['Id'],
+              },
+
+            },
+          },
+          required: ['EndpointUrl', 'OpcNodes'],
+        },
+        {
+          type: 'object',
+          properties: {
+            DataSetWriterId: {
+              type: 'string',
+            },
+            DataSetWriterGroup: {
+              type: 'string',
+            },
+            DataSetPublishingInterval: {
+              type: 'string',
+            },
+            EncryptedAuthPassword: {
+              type: 'string',
+            },
+            OpcAuthenticationPassword: {
+              type: 'string',
+            },
+            EndpointUrl: {
+              type: 'string',
+              format: 'uri',
+              $comment: "Endpoint urls must adhear to OPC UA server addressing schemes which begin with `opc.tcp` followed by " +
+                "acceptable URI formatting, e.g. `opc.tcp?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+`",
+              pattern: `${endpointRegexStr}`,
+            },
+            UseSecurity: {
+              type: 'boolean',
+            },
+            OpcNodes: {
+              type: 'array',
+              items:
+              {
+                type: 'object',
+                properties: {
+                  ExpandedNodeId: {
+                    type: 'string',
+                    $comment: "this subschema only supports the use of the expanded nodeid format",
                     pattern: `${generatePublishedNodesNodeIdRegex([
-                      NodeIdFormat.NodeId.toString(),
-                      NodeIdFormat.NamespaceIndex.toString(),
+                      NodeIdFormat.ExpandedNodeId.toString(),
                     ])}`,
                   },
                   OpcSamplingInterval: {
@@ -377,14 +305,62 @@ export function getPublishedNodesSchema(
                     type: 'integer',
                   },
                 },
-                required: ['Identifier'],
+                required: ['ExpandedNodeId'],
               },
             },
-            required: ['EndpointUrl', 'NodeId'],
           },
+          required: ['EndpointUrl', 'OpcNodes'],
         },
-      ],
-    },
+        {
+          type: 'object',
+          properties: {
+            DataSetWriterId: {
+              type: 'string',
+            },
+            DataSetWriterGroup: {
+              type: 'string',
+            },
+            DataSetPublishingInterval: {
+              type: 'string',
+            },
+            EncryptedAuthPassword: {
+              type: 'string',
+            },
+            OpcAuthenticationPassword: {
+              type: 'string',
+            },
+            EndpointUrl: {
+              type: 'string',
+              format: 'uri',
+              $comment: "Endpoint urls must adhear to OPC UA server addressing schemes which begin with `opc.tcp` followed by " +
+                "acceptable URI formatting, e.g. `opc.tcp?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+`",
+              pattern: `${endpointRegexStr}`,
+            },
+            NodeId: {
+              type: 'object',
+              properties: {
+                Identifier: {
+                  type: 'string',
+                  $comment: "The only supported, historical ID format for this subschema is 'NodeId', e.g. 'NodeId' : 'i=12345' ",
+                  pattern: `${generatePublishedNodesNodeIdRegex([
+                    NodeIdFormat.NodeId.toString(),
+                    NodeIdFormat.NamespaceIndex.toString(),
+                  ])}`,
+                },
+                OpcSamplingInterval: {
+                  type: 'integer',
+                },
+                OpcPublishingInterval: {
+                  type: 'integer',
+                },
+              },
+              required: ['Identifier'],
+            },
+          },
+          required: ['EndpointUrl', 'NodeId'],
+        }
+      ]
+    }
   };
 
   // if the requireUseSecurity flag is set via the command
@@ -397,15 +373,15 @@ export function getPublishedNodesSchema(
     const s = schema;
     const updatedOneOfSchema = s.items.oneOf.map(element => {
       // grab the schema elements that allow UseSecurity
-      if (element.then.properties.UseSecurity) {
+      if (element.properties.UseSecurity) {
         // ensure that UseSecurity is a required field
-        element.then.required.push('UseSecurity');
+        element.required.push('UseSecurity');
         // set a const to ensure the value is set to true
         // when useSecurity is true
         if (useSecurity) {
-          const useSecurity = element.then.properties.UseSecurity;
+          const useSecurity = element.properties.UseSecurity;
           const useSecurityConst = {...useSecurity, const: true};
-          element.then.properties.UseSecurity = useSecurityConst;
+          element.properties.UseSecurity = useSecurityConst;
         }
       }
       return element;
@@ -414,4 +390,4 @@ export function getPublishedNodesSchema(
   }
 
   return schema;
-}
+};
