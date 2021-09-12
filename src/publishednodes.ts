@@ -181,16 +181,19 @@ export function getPublishedNodesSchema(
   const schema = {
     //$id: jsonSchemaUrl,
     $schema: jsonSchemaUrl,
-    $comment: "The outer most object of the configuration file must be an array, though " +
+    $comment:
+      'The outer most object of the configuration file must be an array, though ' +
       "it's contents may adhear to several differing schema, presented from newest to oldest supported schema.",
     type: 'array',
     items: {
-      $comment: "The nested 'oneOf' under 'items' ensures that each array element must comform " +
-        "to one of the three following subschema. See the following stackoverflow post for details: " +
-        "https://stackoverflow.com/a/67314134/1276028",
+      $comment:
+        "The nested 'oneOf' under 'items' ensures that each array element must comform " +
+        'to one of the three following subschema. See the following stackoverflow post for details: ' +
+        'https://stackoverflow.com/a/67314134/1276028',
       oneOf: [
         {
-          $comment: "The following subschema is the most current allowable configuration schema for OPC Publisher",
+          $comment:
+            'The following subschema is the most current allowable configuration schema for OPC Publisher',
           type: 'object',
           properties: {
             DataSetWriterId: {
@@ -211,8 +214,9 @@ export function getPublishedNodesSchema(
             EndpointUrl: {
               type: 'string',
               format: 'uri',
-              $comment: "Endpoint urls must adhear to OPC UA server addressing schemes which begin with `opc.tcp` followed by " +
-                "acceptable URI formatting, e.g. `opc.tcp?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+`",
+              $comment:
+                'Endpoint urls must adhear to OPC UA server addressing schemes which begin with `opc.tcp` followed by ' +
+                'acceptable URI formatting, e.g. `opc.tcp?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+`',
               pattern: `${endpointRegexStr}`,
             },
             UseSecurity: {
@@ -220,8 +224,7 @@ export function getPublishedNodesSchema(
             },
             OpcNodes: {
               type: 'array',
-              items:
-              {
+              items: {
                 type: 'object',
                 properties: {
                   Id: {
@@ -252,7 +255,6 @@ export function getPublishedNodesSchema(
                 },
                 required: ['Id'],
               },
-
             },
           },
           required: ['EndpointUrl', 'OpcNodes'],
@@ -278,8 +280,9 @@ export function getPublishedNodesSchema(
             EndpointUrl: {
               type: 'string',
               format: 'uri',
-              $comment: "Endpoint urls must adhear to OPC UA server addressing schemes which begin with `opc.tcp` followed by " +
-                "acceptable URI formatting, e.g. `opc.tcp?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+`",
+              $comment:
+                'Endpoint urls must adhear to OPC UA server addressing schemes which begin with `opc.tcp` followed by ' +
+                'acceptable URI formatting, e.g. `opc.tcp?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+`',
               pattern: `${endpointRegexStr}`,
             },
             UseSecurity: {
@@ -287,13 +290,13 @@ export function getPublishedNodesSchema(
             },
             OpcNodes: {
               type: 'array',
-              items:
-              {
+              items: {
                 type: 'object',
                 properties: {
                   ExpandedNodeId: {
                     type: 'string',
-                    $comment: "this subschema only supports the use of the expanded nodeid format",
+                    $comment:
+                      'this subschema only supports the use of the expanded nodeid format',
                     pattern: `${generatePublishedNodesNodeIdRegex([
                       NodeIdFormat.ExpandedNodeId.toString(),
                     ])}`,
@@ -332,8 +335,9 @@ export function getPublishedNodesSchema(
             EndpointUrl: {
               type: 'string',
               format: 'uri',
-              $comment: "Endpoint urls must adhear to OPC UA server addressing schemes which begin with `opc.tcp` followed by " +
-                "acceptable URI formatting, e.g. `opc.tcp?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+`",
+              $comment:
+                'Endpoint urls must adhear to OPC UA server addressing schemes which begin with `opc.tcp` followed by ' +
+                'acceptable URI formatting, e.g. `opc.tcp?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+`',
               pattern: `${endpointRegexStr}`,
             },
             NodeId: {
@@ -341,7 +345,8 @@ export function getPublishedNodesSchema(
               properties: {
                 Identifier: {
                   type: 'string',
-                  $comment: "The only supported, historical ID format for this subschema is 'NodeId', e.g. 'NodeId' : 'i=12345' ",
+                  $comment:
+                    "The only supported, historical ID format for this subschema is 'NodeId', e.g. 'NodeId' : 'i=12345' ",
                   pattern: `${generatePublishedNodesNodeIdRegex([
                     NodeIdFormat.NodeId.toString(),
                     NodeIdFormat.NamespaceIndex.toString(),
@@ -358,9 +363,9 @@ export function getPublishedNodesSchema(
             },
           },
           required: ['EndpointUrl', 'NodeId'],
-        }
-      ]
-    }
+        },
+      ],
+    },
   };
 
   // if the requireUseSecurity flag is set via the command
@@ -390,4 +395,4 @@ export function getPublishedNodesSchema(
   }
 
   return schema;
-};
+}

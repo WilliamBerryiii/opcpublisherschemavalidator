@@ -47,7 +47,7 @@ exports.handler = function (
     }
   }
 
-  const schemaFileName = path.join(`${SCHEMA_DIRECTORY}`, argv.name);
+  // const schemaFileName = path.join(`${SCHEMA_DIRECTORY}`, argv.name);
   // inplement sort on the node id formats to make the output
   // more consistent. This does not impact tests or how the
   // // order was supplied on the command line.
