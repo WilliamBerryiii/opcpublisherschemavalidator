@@ -12,7 +12,7 @@ const jsonSchemaUrl = 'http://json-schema.org/draft-07/schema#';
 // should be updated to cover edge cases, like alternate
 // languages, if needed - regenerating the schema accordingly
 const endpointRegexStr =
-  'opc.tcp?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+';
+  'opc.tcp://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+';
 //const endpointRegex = new RegExp(endpointRegexStr);
 
 // OPC UA Server Namespace validation regex. This does
@@ -183,7 +183,7 @@ export function getPublishedNodesSchema(
     $schema: jsonSchemaUrl,
     $comment:
       'The outer most object of the configuration file must be an array, though ' +
-      "it's contents may adhear to several differing schema, presented from newest to oldest supported schema.",
+      'its contents may adhere to several differing schema, presented from newest to oldest supported schema.',
     type: 'array',
     items: {
       $comment:
