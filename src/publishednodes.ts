@@ -183,7 +183,9 @@ export function getPublishedNodesSchema(
     $schema: jsonSchemaUrl,
     $comment:
       'The outer most object of the configuration file must be an array, though ' +
-      'its contents may adhere to several differing schema, presented from newest to oldest supported schema.',
+      'its contents may adhere to several differing schema, presented from newest to ' +
+      'oldest supported schema. Further design details can be found in the markdown ' +
+      'document that is adjacent to this schema.',
     type: 'array',
     items: {
       $comment:
@@ -215,8 +217,8 @@ export function getPublishedNodesSchema(
               type: 'string',
               format: 'uri',
               $comment:
-                'Endpoint urls must adhear to OPC UA server addressing schemes which begin with `opc.tcp` followed by ' +
-                'acceptable URI formatting, e.g. `opc.tcp?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+`',
+                'Endpoint urls must adhere to OPC UA server addressing schemes which begin with `opc.tcp` followed by ' +
+                'acceptable URI formatting, e.g. `opc.tcp://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+`',
               pattern: `${endpointRegexStr}`,
             },
             UseSecurity: {
@@ -229,6 +231,9 @@ export function getPublishedNodesSchema(
                 properties: {
                   Id: {
                     type: 'string',
+                    $comment:
+                      'this subschema supports all allowabe formats, e.g. `nsu={url/urn resourece path}/;{nodeId type}={nodeId}`' +
+                      ' or `ns={namespace index based on OPC UA IM}/;{nodeId type}={nodeId}` or `{nodeId type}={nodeId}`',
                     pattern: `${generatePublishedNodesNodeIdRegex(formats)}`,
                   },
                   DisplayName: {
@@ -281,8 +286,8 @@ export function getPublishedNodesSchema(
               type: 'string',
               format: 'uri',
               $comment:
-                'Endpoint urls must adhear to OPC UA server addressing schemes which begin with `opc.tcp` followed by ' +
-                'acceptable URI formatting, e.g. `opc.tcp?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+`',
+                'Endpoint urls must adhere to OPC UA server addressing schemes which begin with `opc.tcp` followed by ' +
+                'acceptable URI formatting, e.g. `opc.tcp://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+`',
               pattern: `${endpointRegexStr}`,
             },
             UseSecurity: {
@@ -296,7 +301,7 @@ export function getPublishedNodesSchema(
                   ExpandedNodeId: {
                     type: 'string',
                     $comment:
-                      'this subschema only supports the use of the expanded nodeid format',
+                      'this subschema only supports the use of the expanded nodeid format, e.g. `nsu={url/urn resourece path}/;{nodeId type}={nodeId}`',
                     pattern: `${generatePublishedNodesNodeIdRegex([
                       NodeIdFormat.ExpandedNodeId.toString(),
                     ])}`,
@@ -336,8 +341,8 @@ export function getPublishedNodesSchema(
               type: 'string',
               format: 'uri',
               $comment:
-                'Endpoint urls must adhear to OPC UA server addressing schemes which begin with `opc.tcp` followed by ' +
-                'acceptable URI formatting, e.g. `opc.tcp?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+`',
+                'Endpoint urls must adhere to OPC UA server addressing schemes which begin with `opc.tcp` followed by ' +
+                'acceptable URI formatting, e.g. `opc.tcp://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+`',
               pattern: `${endpointRegexStr}`,
             },
             NodeId: {
@@ -346,7 +351,7 @@ export function getPublishedNodesSchema(
                 Identifier: {
                   type: 'string',
                   $comment:
-                    "The only supported, historical ID format for this subschema is 'NodeId', e.g. 'NodeId' : 'i=12345' ",
+                    "The only supported, historical ID format for this subschema is 'NodeId', e.g. `{nodeId type}={nodeId}` ",
                   pattern: `${generatePublishedNodesNodeIdRegex([
                     NodeIdFormat.NodeId.toString(),
                     NodeIdFormat.NamespaceIndex.toString(),
