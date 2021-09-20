@@ -232,7 +232,7 @@ export function getPublishedNodesSchema(
                   Id: {
                     type: 'string',
                     $comment:
-                      'this subschema supports all allowable formats, e.g. `nsu={url/urn resource path}/;{nodeId type}={nodeId}`' +
+                      'This subschema supports all allowable formats, e.g. `nsu={url/urn resource path}/;{nodeId type}={nodeId}`' +
                       ' or `ns={namespace index based on OPC UA IM}/;{nodeId type}={nodeId}` or `{nodeId type}={nodeId}`',
                     pattern: `${generatePublishedNodesNodeIdRegex(formats)}`,
                   },
@@ -301,7 +301,7 @@ export function getPublishedNodesSchema(
                   ExpandedNodeId: {
                     type: 'string',
                     $comment:
-                      'this subschema only supports the use of the expanded nodeid format, e.g. `nsu={url/urn resource path}/;{nodeId type}={nodeId}`',
+                      'This subschema only supports the use of the expanded nodeid format, e.g. `nsu={url/urn resource path}/;{nodeId type}={nodeId}`',
                     pattern: `${generatePublishedNodesNodeIdRegex([
                       NodeIdFormat.ExpandedNodeId.toString(),
                     ])}`,
