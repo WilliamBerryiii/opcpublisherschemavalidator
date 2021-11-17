@@ -67,7 +67,7 @@ describe('An example publishednodes.json file', () => {
     const historicalCompatibilitySchema = getPublishedNodesSchema(
       // NOTE: The boolean value below disables ID value checking to support
       // backward compatibility for some example pn.json files. The official
-      // schema hosted in OPC Publisher uses this setting == false as below. 
+      // schema hosted in OPC Publisher uses this setting == false as below.
       false,
       [
         NodeIdFormat.ExpandedNodeId,
@@ -80,57 +80,60 @@ describe('An example publishednodes.json file', () => {
 
     const legacyConfigExample = [
       {
-        EndpointUrl: "opc.tcp://crpogace01:49320",
+        EndpointUrl: 'opc.tcp://crpogace01:49320',
         UseSecurity: false,
         OpcNodes: [
           {
-
-            DisplayName: "Kep_1_DisplayName",
-            DataSetFieldId: "Kep_1_DataSetFieldId",
-            Id: "nsu=KEPServerEX;s=Sim.CH1.SIM_CH1_TAG1\\234754a-c63-b9601",
+            DisplayName: 'Kep_1_DisplayName',
+            DataSetFieldId: 'Kep_1_DataSetFieldId',
+            Id: 'nsu=KEPServerEX;s=Sim.CH1.SIM_CH1_TAG1\\234754a-c63-b9601',
             OpcSamplingInterval: 1000,
-            OpcPublishingInterval: 1000
+            OpcPublishingInterval: 1000,
           },
           {
-            DisplayName: "Kep_2_DisplayName",
-            DataSetFieldId: "Kep_2_DataSetFieldId",
-            Id: "ns=2;s=Sim.CH1.SIM_CH1_TAG10\\2347798-c63-19401",
-            ExpandedNodeId: "nsu=KEPServerEX;s=Sim.CH1.SIM_CH1_TAG10\\2347798-c63-19401",
+            DisplayName: 'Kep_2_DisplayName',
+            DataSetFieldId: 'Kep_2_DataSetFieldId',
+            Id: 'ns=2;s=Sim.CH1.SIM_CH1_TAG10\\2347798-c63-19401',
+            ExpandedNodeId:
+              'nsu=KEPServerEX;s=Sim.CH1.SIM_CH1_TAG10\\2347798-c63-19401',
             OpcSamplingInterval: 1000,
-            OpcPublishingInterval: 1000
-          }
-        ]
+            OpcPublishingInterval: 1000,
+          },
+        ],
       },
       {
-        EndpointUrl: "opc.tcp://crpogace01:51210/UA/DemoServer",
+        EndpointUrl: 'opc.tcp://crpogace01:51210/UA/DemoServer',
         UseSecurity: false,
         OpcNodes: [
           {
-            DisplayName: "Softing_1_DisplayName",
-            DataSetFieldId: "Softing_1_DataSetFieldId",
-            Id: "http://test.org/UA/Data/#i=10847",
+            DisplayName: 'Softing_1_DisplayName',
+            DataSetFieldId: 'Softing_1_DataSetFieldId',
+            Id: 'http://test.org/UA/Data/#i=10847',
             OpcSamplingInterval: 1000,
-            OpcPublishingInterval: 1000
+            OpcPublishingInterval: 1000,
           },
           {
-            DisplayName: "Softing_2_DisplayName",
-            DataSetFieldId: "Softing_2_DataSetFieldId",
-            Id: "nsu=http://test.org/UA/Data/;i=10848",
+            DisplayName: 'Softing_2_DisplayName',
+            DataSetFieldId: 'Softing_2_DataSetFieldId',
+            Id: 'nsu=http://test.org/UA/Data/;i=10848',
             OpcSamplingInterval: 1000,
-            OpcPublishingInterval: 1000
+            OpcPublishingInterval: 1000,
           },
           {
-            DisplayName: "Softing_3_DisplayName",
-            DataSetFieldId: "Softing_3_DataSetFieldId",
-            Id: "ns=3;i=10849",
-            ExpandedNodeId: "http://test.org/UA/Data/#i=10849",
+            DisplayName: 'Softing_3_DisplayName',
+            DataSetFieldId: 'Softing_3_DataSetFieldId',
+            Id: 'ns=3;i=10849',
+            ExpandedNodeId: 'http://test.org/UA/Data/#i=10849',
             OpcSamplingInterval: 1000,
-            OpcPublishingInterval: 1000
-          }
-        ]
-      }
+            OpcPublishingInterval: 1000,
+          },
+        ],
+      },
     ];
-    const [result, validationErrors] = validateFile(legacyConfigExample, historicalCompatibilitySchema);
+    const [result, validationErrors] = validateFile(
+      legacyConfigExample,
+      historicalCompatibilitySchema
+    );
     console.log(validationErrors);
 
     expect(result).to.be.true;
