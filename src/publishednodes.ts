@@ -172,13 +172,16 @@ export function generatePublishedNodesNodeIdRegex(
 
 // The following methods determine if we should output the value
 // validation for various ID fields in the schema. By default
-// these should be on, but backward compatibility concerns in 
+// these should be on, but backward compatibility concerns in
 // OPC Publisher have triggered the disabling of these by default.
-// The developers of this tool strongly encourage setting the 
-// gen-pub-schema's 'gvv' flag to true if possible to ensure 
-// an accurate and complete schema def.  
-export function generateIdSchema(generateValueValidation: boolean, nodeFormats: string[]): object {
-  var id: any = {
+// The developers of this tool strongly encourage setting the
+// gen-pub-schema's 'gvv' flag to true if possible to ensure
+// an accurate and complete schema def.
+export function generateIdSchema(
+  generateValueValidation: boolean,
+  nodeFormats: string[]
+): object {
+  const id: any = {
     type: 'string',
   };
   if (generateValueValidation) {
@@ -190,9 +193,11 @@ export function generateIdSchema(generateValueValidation: boolean, nodeFormats: 
   return id;
 }
 
-export function generateExpandedNodeIdSchema(generateValueValidation: boolean): object {
-  var eni: any = {
-    type: 'string'
+export function generateExpandedNodeIdSchema(
+  generateValueValidation: boolean
+): object {
+  const eni: any = {
+    type: 'string',
   };
   if (generateValueValidation) {
     eni.$comment =
@@ -204,9 +209,11 @@ export function generateExpandedNodeIdSchema(generateValueValidation: boolean): 
   return eni;
 }
 
-export function generateIdentifierSchema(generateValueValidation: boolean): object {
-  var identifier: any = {
-    type: 'string'
+export function generateIdentifierSchema(
+  generateValueValidation: boolean
+): object {
+  const identifier: any = {
+    type: 'string',
   };
   if (generateValueValidation) {
     identifier.$comment =
@@ -215,7 +222,7 @@ export function generateIdentifierSchema(generateValueValidation: boolean): obje
       NodeIdFormat.NodeId.toString(),
       NodeIdFormat.NamespaceIndex.toString(),
     ])}`;
-  };
+  }
   return identifier;
 }
 
@@ -280,7 +287,9 @@ export function getPublishedNodesSchema(
                 type: 'object',
                 properties: {
                   Id: generateIdSchema(generateValueValidation, formats),
-                  ExpandedNodeId: generateExpandedNodeIdSchema(generateValueValidation),
+                  ExpandedNodeId: generateExpandedNodeIdSchema(
+                    generateValueValidation
+                  ),
                   DisplayName: {
                     type: 'string',
                   },
@@ -343,7 +352,9 @@ export function getPublishedNodesSchema(
               items: {
                 type: 'object',
                 properties: {
-                  ExpandedNodeId: generateExpandedNodeIdSchema(generateValueValidation),
+                  ExpandedNodeId: generateExpandedNodeIdSchema(
+                    generateValueValidation
+                  ),
                   OpcSamplingInterval: {
                     type: 'integer',
                   },

@@ -90,7 +90,8 @@ exports.handler = function (
       fs.mkdirSync(SCHEMA_DIRECTORY, {recursive: true});
     } catch (err) {
       logger.error(
-        `Failed creating output schema directory with error: ${(err as Error).message
+        `Failed creating output schema directory with error: ${
+          (err as Error).message
         }`
       );
       throw err;
