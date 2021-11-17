@@ -7,6 +7,7 @@ import {DefinedError} from 'ajv';
 const expect = chai.expect;
 
 const schema = getPublishedNodesSchema(
+  true,
   [
     NodeIdFormat.ExpandedNodeId,
     NodeIdFormat.NamespaceIndex,
@@ -126,6 +127,7 @@ describe('An example publishednodes.json file', () => {
 
   it('should not return an error when being validated with requireUseSecurity set to true, and when the UseSecurity flag is false', () => {
     const requireSecuritySchema = getPublishedNodesSchema(
+      true,
       [
         NodeIdFormat.ExpandedNodeId,
         NodeIdFormat.NamespaceIndex,
@@ -151,6 +153,7 @@ describe('An example publishednodes.json file', () => {
 
   it('should return an error when being validated with requireUseSecurity set to true, and when the UseSecurity flag must be true as well', () => {
     const requireSecuritySchema = getPublishedNodesSchema(
+      true,
       [
         NodeIdFormat.ExpandedNodeId,
         NodeIdFormat.NamespaceIndex,

@@ -170,10 +170,60 @@ export function generatePublishedNodesNodeIdRegex(
   return opcUaNodeIdRegexStr.join('').slice(0, -1);
 }
 
+// The following methods determine if we should output the value
+// validation for various ID fields in the schema. By default
+// these should be on, but backward compatibility concerns in 
+// OPC Publisher have triggered the disabling of these by default.
+// The developers of this tool strongly encourage setting the 
+// gen-pub-schema's 'gvv' flag to true if possible to ensure 
+// an accurate and complete schema def.  
+export function generateIdSchema(generateValueValidation: boolean, nodeFormats: string[]): object {
+  var id: any = {
+    type: 'string',
+  };
+  if (generateValueValidation) {
+    id.$comment =
+      'This subschema supports all allowable formats, e.g. `nsu={url/urn resource path}/;{nodeId type}={nodeId}`' +
+      ' or `ns={namespace index based on OPC UA IM}/;{nodeId type}={nodeId}` or `{nodeId type}={nodeId}`';
+    id.pattern = `${generatePublishedNodesNodeIdRegex(nodeFormats)}`;
+  }
+  return id;
+}
+
+export function generateExpandedNodeIdSchema(generateValueValidation: boolean): object {
+  var eni: any = {
+    type: 'string'
+  };
+  if (generateValueValidation) {
+    eni.$comment =
+      'This subschema only supports the use of the expanded nodeid format, e.g. `nsu={url/urn resource path}/;{nodeId type}={nodeId}`';
+    eni.pattern = `${generatePublishedNodesNodeIdRegex([
+      NodeIdFormat.ExpandedNodeId.toString(),
+    ])}`;
+  }
+  return eni;
+}
+
+export function generateIdentifierSchema(generateValueValidation: boolean): object {
+  var identifier: any = {
+    type: 'string'
+  };
+  if (generateValueValidation) {
+    identifier.$comment =
+      "The only supported, historical ID format for this subschema is 'NodeId', e.g. `{nodeId type}={nodeId}` ";
+    identifier.pattern = `${generatePublishedNodesNodeIdRegex([
+      NodeIdFormat.NodeId.toString(),
+      NodeIdFormat.NamespaceIndex.toString(),
+    ])}`;
+  };
+  return identifier;
+}
+
 // publishednodes.json JSON-Schema object with fills
 // NOTE: pay attention to the 'required' fields and
 // update accordingly
 export function getPublishedNodesSchema(
+  generateValueValidation: boolean,
   formats: NodeIdFormat[],
   useSecurity: boolean,
   requireUseSecurity: boolean
@@ -229,13 +279,8 @@ export function getPublishedNodesSchema(
               items: {
                 type: 'object',
                 properties: {
-                  Id: {
-                    type: 'string',
-                    $comment:
-                      'This subschema supports all allowable formats, e.g. `nsu={url/urn resource path}/;{nodeId type}={nodeId}`' +
-                      ' or `ns={namespace index based on OPC UA IM}/;{nodeId type}={nodeId}` or `{nodeId type}={nodeId}`',
-                    pattern: `${generatePublishedNodesNodeIdRegex(formats)}`,
-                  },
+                  Id: generateIdSchema(generateValueValidation, formats),
+                  ExpandedNodeId: generateExpandedNodeIdSchema(generateValueValidation),
                   DisplayName: {
                     type: 'string',
                   },
@@ -298,14 +343,7 @@ export function getPublishedNodesSchema(
               items: {
                 type: 'object',
                 properties: {
-                  ExpandedNodeId: {
-                    type: 'string',
-                    $comment:
-                      'This subschema only supports the use of the expanded nodeid format, e.g. `nsu={url/urn resource path}/;{nodeId type}={nodeId}`',
-                    pattern: `${generatePublishedNodesNodeIdRegex([
-                      NodeIdFormat.ExpandedNodeId.toString(),
-                    ])}`,
-                  },
+                  ExpandedNodeId: generateExpandedNodeIdSchema(generateValueValidation),
                   OpcSamplingInterval: {
                     type: 'integer',
                   },
@@ -348,15 +386,7 @@ export function getPublishedNodesSchema(
             NodeId: {
               type: 'object',
               properties: {
-                Identifier: {
-                  type: 'string',
-                  $comment:
-                    "The only supported, historical ID format for this subschema is 'NodeId', e.g. `{nodeId type}={nodeId}` ",
-                  pattern: `${generatePublishedNodesNodeIdRegex([
-                    NodeIdFormat.NodeId.toString(),
-                    NodeIdFormat.NamespaceIndex.toString(),
-                  ])}`,
-                },
+                Identifier: generateIdentifierSchema(generateValueValidation),
                 OpcSamplingInterval: {
                   type: 'integer',
                 },

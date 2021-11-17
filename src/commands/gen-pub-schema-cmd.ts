@@ -8,6 +8,7 @@ import winston from 'winston';
 export interface GenPubSchemaArguments {
   directory: string;
   name: string;
+  generateValueValidation: boolean;
   validateOptions: NodeIdFormat[];
   useSecurity: boolean;
   requireUseSecurity: boolean;
@@ -34,6 +35,14 @@ exports.builder = (yargs: Argv<GenPubSchemaArguments>) =>
       nargs: 1,
       describe: 'Output schema file name.',
       default: 'publishednodes-schema.json',
+    })
+    .option('gen-value-validation', {
+      type: 'boolean',
+      alias: ['gvv'],
+      describe:
+        'Determines if object value validation should be included in generated schema.' +
+        'This applies to ExpandedNodeId and Id fields of items in the OpcNodes array.',
+      default: false,
     })
     .option('validate-options', {
       choices: Object.keys(NodeIdFormat) as NodeIdFormat[],
@@ -81,8 +90,7 @@ exports.handler = function (
       fs.mkdirSync(SCHEMA_DIRECTORY, {recursive: true});
     } catch (err) {
       logger.error(
-        `Failed creating output schema directory with error: ${
-          (err as Error).message
+        `Failed creating output schema directory with error: ${(err as Error).message
         }`
       );
       throw err;
@@ -98,6 +106,7 @@ exports.handler = function (
   try {
     schema = JSON.stringify(
       getPublishedNodesSchema(
+        argv.generateValueValidation,
         nodeIdFormats,
         argv.useSecurity,
         argv.requireUseSecurity
